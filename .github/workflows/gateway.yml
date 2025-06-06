@@ -3,10 +3,11 @@ name: CI - NotificationGateway
 on:
   push:
     paths:
-      - 'Src/Services/NotificationGateway/**'
+      - 'NotificationGateway/**'
+      - '.github/workflows/gateway.yml'
   pull_request:
     paths:
-      - 'Src/Services/NotificationGateway/**'
+      - 'NotificationGateway/**'
 
 jobs:
   build:
@@ -21,7 +22,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore Src/Services/NotificationGateway/NotificationGateway/NotificationGateway.csproj
+        run: dotnet restore NotificationGateway/NotificationGateway/NotificationGateway.csproj
 
       - name: Build
-        run: dotnet build Src/Services/NotificationGateway/NotificationGateway/NotificationGateway.csproj --no-restore --configuration Release
+        run: dotnet build NotificationGateway/NotificationGateway/NotificationGateway.csproj --no-restore --configuration Release
