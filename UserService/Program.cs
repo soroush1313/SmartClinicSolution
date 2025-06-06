@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ----------------------------
 // ? 1. Load Configuration
-// ----------------------------
+// --------------------------
 
 var configuration = builder.Configuration;
 
