@@ -1,30 +1,27 @@
-name: NotificationService CI/CD
+name: CI - NotificationService
 
 on:
   push:
     paths:
-      - 'NotificationService/**'
-    branches:
-      - main
+      - 'Src/Services/NotificationService/**'
+  pull_request:
+    paths:
+      - 'Src/Services/NotificationService/**'
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
 
-    - run: dotnet restore ./NotificationService/NotificationService.csproj
-    - run: dotnet build ./NotificationService/NotificationService.csproj --no-restore
-    - run: dotnet publish ./NotificationService/NotificationService.csproj -c Release -o ./out
+      - name: Restore dependencies
+        run: dotnet restore Src/Services/NotificationService/NotificationService/NotificationService.csproj
 
-    - name: Deploy with Docker
-      run: |
-        docker build -t notificationservice ./NotificationService
-        docker stop notificationservice || true
-        docker rm notificationservice || true
-        docker run -d --name notificationservice notificationservice
+      - name: Build
+        run: dotnet build Src/Services/NotificationService/NotificationService/NotificationService.csproj --no-restore --configuration Release

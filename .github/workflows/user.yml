@@ -1,31 +1,27 @@
-name: UserService CI/CD
+name: CI - UserService
 
 on:
   push:
     paths:
-      - 'UserService/**'
-    branches:
-      - main
+      - 'Src/Services/UserService/**'
+  pull_request:
+    paths:
+      - 'Src/Services/UserService/**'
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
 
-    - run: dotnet restore ./UserService/UserService.API/UserService.API.csproj
-    - run: dotnet build ./UserService/UserService.API/UserService.API.csproj --no-restore
-    - run: dotnet test
-    - run: dotnet publish ./UserService/UserService.API/UserService.API.csproj -c Release -o ./out
+      - name: Restore dependencies
+        run: dotnet restore Src/Services/UserService/UserService/UserService.csproj
 
-    - name: Deploy with Docker
-      run: |
-        docker build -t userservice ./UserService
-        docker stop userservice || true
-        docker rm userservice || true
-        docker run -d -p 5001:80 --name userservice userservice
+      - name: Build
+        run: dotnet build Src/Services/UserService/UserService/UserService.csproj --no-restore --configuration Release
