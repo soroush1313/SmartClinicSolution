@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore UserService/UserService/UserService.csproj
+        run: dotnet restore UserService/UserService.csproj
 
       - name: Build
-        run: dotnet build UserService/UserService/UserService.csproj --no-restore --configuration Release
+        run: dotnet build UserService/UserService.csproj --no-restore --configuration Release
