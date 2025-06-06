@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore NotificationService/NotificationService/NotificationService.csproj
+        run: dotnet restore NotificationService/NotificationService.csproj
 
       - name: Build
-        run: dotnet build NotificationService/NotificationService/NotificationService.csproj --no-restore --configuration Release
+        run: dotnet build NotificationService/NotificationService.csproj --no-restore --configuration Release
