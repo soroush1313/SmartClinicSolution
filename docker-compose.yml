@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  appointmentservice:
+    build:
+      context: ./AppointmentService
+      dockerfile: AppointmentService.API/Dockerfile
+    ports:
+      - "5001:80"
+    depends_on:
+      - redis
+      - rabbitmq
+
+  userservice:
+    build:
+      context: ./UserService
+      dockerfile: Dockerfile
+    ports:
+      - "5002:80"
+    depends_on:
+      - sqlserver
+
+  notificationservice:
+    build:
+      context: ./NotificationService
+      dockerfile: Dockerfile
+    ports:
+      - "5003:80"
+    depends_on:
+      - rabbitmq
+
+  notificationgateway:
+    build:
+      context: ./NotificationGateway
+      dockerfile: Dockerfile
+    ports:
+      - "5004:80"
+    depends_on:
+      - rabbitmq
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+volumes:
+  sqlvolume:
