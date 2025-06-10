@@ -60,7 +60,7 @@ Git
 
 2. Clone the Repository
 
-git clone https://github.com/your-username/SmartClinicSolution.git
+git clone https://github.com/soroush1313/SmartClinicSolution
 cd SmartClinicSolution
 
 3. Build and Run the Project
